@@ -1,5 +1,10 @@
 # Segmentation of Cell Cycles Images
 
+SCC0251 - Image Processing
+
+Name: Breno Lívio Silva de Almeida
+Num USP: 10276675
+
 It's known the association of differences in the rates of cellular division and differences in the amount of time spent in each stage of cellular division between healthy and cancer cells [1]. Therefore, it's essential to create methods to analyze images of a process as cell division.
 
 We will explore the following dataset:
