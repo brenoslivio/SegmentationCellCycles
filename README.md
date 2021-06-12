@@ -17,4 +17,11 @@ With these images, we will do the process of image segmentation to count the Nuc
 
 The output will be the segmentation mask for the Nuclei.
 
+Ideas:
+
+Region-Based Segmentation
+Edge Detection Segmentation
+Segmentation based on Clustering
+Generate masks and see the best methods training NN
+
 [1] Sherr, C. J. (1996). Cancer cell cycles. Science, 274(5293), 1672-1677.
