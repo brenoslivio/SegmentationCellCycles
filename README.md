@@ -45,6 +45,8 @@ Segmentation based on Clustering can divide the pixels of the image into homogen
 
 To evaluate the segmentations methods it will be created segmentations masks by hand using [labelme](https://github.com/wkentaro/labelme), a tool for Image Polygonal Annotation with Python. The segmentations created by hand will be compared to the region-based and clustering methods, calculating the Intersection over Union (IoU) score, the Jaccard Index.
 
+![IoU](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/iou_examples.png)
+
 ### Connected-component labeling
 
 After generating segmentation we have to label the connected components. Connected-component labeling is used in computer vision to detect connected regions in binary digital images. We can extract the blobs for the Nuclei using this method.
@@ -55,9 +57,15 @@ For the partial project, it was done the Region-Based Segmentation for the image
 
 We have the following original image:
 
+![Original](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/I4.jpg)
+
 After pre-processing and Region-Based Segmentation we have:
 
+![Segmented](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/I4_threshold.jpg)
+
 The true segmentation mask would be:
+
+![TrueMask](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/I4_TrueMask.png)
 
 The IoU score for this case is 0.7130.
 
@@ -75,3 +83,5 @@ The IoU score for this case is 0.7130.
 [2] Wang, Z., Wang, E. & Zhu, Y. Image segmentation evaluation: a survey of methods. Artif Intell Rev 53, 5637–5674 (2020).
 
 [3] Blaschke, T., Burnett, C., & Pekkarinen, A. (2004). Image segmentation methods for object-based analysis and classification. In Remote sensing image analysis: Including the spatial domain (pp. 211-236). Springer, Dordrecht.
+
+Jaccard Index image from https://www.pyimagesearch.com/2016/11/07/intersection-over-union-iou-for-object-detection/
