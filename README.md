@@ -15,7 +15,7 @@ The input will be the nematode cells images in the dataset from Kaggle.
 
 ## Objective
 
-With the images, it will be done the process of image segmentation for the Nuclei and classification between interphase and mitosis based on the output of segmentation. 
+With the images, it will be done the process of image segmentation for the Nuclei. Image Segmentation methods can be an important addition to image classification problems, considering how it can exclude background elements, possibly improving classification metrics [2].
 
 Before proper segmentation, the image will be pre-processed using enhancement and filtering techniques. With this, two segmentation methods will be used and compared, Region-Based and Clustering.
 
@@ -29,21 +29,15 @@ Before the process of segmentation, the input image needs essential adjustments.
 
 ### Region-Based Segmentation
 
-Region-Based Segmentation can separate the objects into different regions based on a threshold value. With the image converted to grayscale, we can, for example, separate the darkest objects from the most enlightened ones. The cell are within the darkest objects in these images.
+Region-Based Segmentation can separate the objects into different regions based on a threshold value. With the image converted to grayscale, we can, for example, separate the darkest objects from the most enlightened ones. The nuclei are within the darkest objects in these images.
 
 ### Segmentation by Clustering
 
 Segmentation based on Clustering can divide the pixels of the image into homogeneous clusters. For this method it will be used the k-means algorithm.
 
-### Classification with Convolutional Neural Network
+### Evaluating segmentations
 
-After the generation of segmented images by the two methods, it will be used a Convolutional Neural Network (CNN) with the objective to analyse with method most constributed for the classification between interphase and mitosis cycles. It will be used 3 datasets for comparing:
-
-- Original images;
-- Segmented images produced by Region-Based Semgmentation;
-- Segmented images produced by Segmentation based on Clustering;
-
-The Image Segmentation method can be an important addition to image classification problems, considering how it can exclude background elements, possibly improving classification metrics [2].
+To evaluate the segmentations methods it will be created segmentations masks by hand using [labelme](https://github.com/wkentaro/labelme), a tool for Image Polygonal Annotation with Python. The segmentations created by hand will be compared to the region-based and clustering methods, calculating the Root Mean Squared Error (RMSE) between the masks.
 
 [1] Sherr, C. J. (1996). Cancer cell cycles. Science, 274(5293), 1672-1677.
 

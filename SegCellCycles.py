@@ -5,21 +5,21 @@
 # Project: Segmentation of Cell Cycles Images
 # 2021/1
 
-import imageio
 import matplotlib.pyplot as plt
 import numpy as np
+import imageio
+import os
 
-def saveSegmentedImg(img):
+def saveSegmentedImg(img, name, dest):
     """
     Save segmented image.
 
     Parameters: img, image for saving.
     """
 
-    plt.figure(figsize = (10, 10))
     plt.axis("off")
     plt.imshow(img, cmap = "gray")
-    plt.savefig('Segmented.png', bbox_inches = 'tight', transparent = True, pad_inches = 0)
+    plt.savefig(dest + name, bbox_inches = 'tight', transparent = True, pad_inches = 0)
 
 def convertLuminance(img):
     """
@@ -31,7 +31,8 @@ def convertLuminance(img):
     """
 
     R, G, B = img[:, :, 0], img[:, :, 1], img[:, :, 2]
-    imgGray = (0.299 * R + 0.587 * G + 0.114 * B).astype(np.uint8)
+
+    imgGray = np.floor((0.299 * R + 0.587 * G + 0.114 * B)).astype(np.uint8)
 
     return imgGray
 
@@ -263,8 +264,13 @@ def centerOfMass(maskLabels, labels):
     for i in labels:
         xMass, yMass = np.where(maskLabels == i)
 
-        xCenter = int(np.average(xMass))
-        yCenter = int(np.average(yMass))
+        xCenter = 0; yCenter = 0
+
+        # Check if blob is of adequate size
+        blobSize = len(np.where(maskLabels == i)[0])
+        if blobSize > 1000 and blobSize < 10000:
+            xCenter = int(np.average(xMass))
+            yCenter = int(np.average(yMass))
 
         centers.append([xCenter, yCenter])
 
@@ -293,34 +299,81 @@ def nearDistance(img, centers):
     return nearestLabel
 
 def main():
-    cellOriginal = imageio.imread('Data/mitosis/IMG_1684-4.jpg')
+    src = "Data/Original/interphase/"
 
-    cellGray = convertLuminance(cellOriginal)
+    for _, filename in enumerate(os.listdir(src)):
+        cellOriginal = imageio.imread(src + filename)
 
-    cellEq = histogramEqualization(cellGray)
+        cellGray = convertLuminance(cellOriginal)
 
-    cellGauss = gaussianFilter(cellEq)
+        cellEq = histogramEqualization(cellGray)
 
-    cellThresh = thresholdRegion(cellGauss)
+        cellGauss = gaussianFilter(cellEq, k = 15, sigma = 10)
 
-    mask = np.ones(cellThresh.shape)
-    mask[np.where(cellThresh == 0)] = 0
-    mask = ~(mask.astype(np.uint8))
+        cellThresh = thresholdRegion(cellGauss)
 
-    mask = scalingImage(mask, 0, 1)
+        mask = np.ones(cellThresh.shape)
+        mask[np.where(cellThresh == 0)] = 0
+        mask = ~(mask.astype(np.uint8))
 
-    maskLabels = connectedComponents(mask)
+        mask = scalingImage(mask, 0, 1)
 
-    labels = np.unique(maskLabels)
+        maskLabels = connectedComponents(mask)
 
-    centers = centerOfMass(maskLabels, labels)
+        labels = np.unique(maskLabels)
 
-    nearestBlob = nearDistance(maskLabels, centers)
+        centers = centerOfMass(maskLabels, labels)
 
-    segmented = np.zeros(mask.shape)
-    segmented[np.where(maskLabels == nearestBlob)] = 1
+        nearestBlob = nearDistance(maskLabels, centers)
 
-    saveSegmentedImg(segmented)
+        segmented = np.zeros(mask.shape)
+        segmented[maskLabels == nearestBlob] = 1
+
+        #[indx, indy] = np.where(segmented == 0)
+        #colorSegmented = cellOriginal.copy()
+        #colorSegmented[indx,indy] = 0
+
+        dest = "Data/Threshold/interphase/"
+
+        saveSegmentedImg(segmented, filename, dest)
+
+    src = "Data/Original/mitosis/"
+
+    for _, filename in enumerate(os.listdir(src)):
+        cellOriginal = imageio.imread(src + filename)
+
+        cellGray = convertLuminance(cellOriginal)
+
+        cellEq = histogramEqualization(cellGray)
+
+        cellGauss = gaussianFilter(cellEq, k = 15, sigma = 10)
+
+        cellThresh = thresholdRegion(cellGauss)
+
+        mask = np.ones(cellThresh.shape)
+        mask[np.where(cellThresh == 0)] = 0
+        mask = ~(mask.astype(np.uint8))
+
+        mask = scalingImage(mask, 0, 1)
+
+        maskLabels = connectedComponents(mask)
+
+        labels = np.unique(maskLabels)
+
+        centers = centerOfMass(maskLabels, labels)
+
+        nearestBlob = nearDistance(maskLabels, centers)
+
+        segmented = np.zeros(mask.shape)
+        segmented[maskLabels == nearestBlob] = 1
+
+        #[indx, indy] = np.where(segmented == 0)
+        #colorSegmented = cellOriginal.copy()
+        #colorSegmented[indx,indy] = 0
+
+        dest = "Data/Threshold/mitosis/"
+
+        saveSegmentedImg(segmented, filename, dest)
 
 if __name__ == '__main__':
     main()
