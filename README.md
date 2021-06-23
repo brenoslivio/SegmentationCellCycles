@@ -11,7 +11,7 @@ It's known the association of differences in the rates of cellular division and 
 We will explore the following dataset:
 https://www.kaggle.com/paultimothymooney/cell-cycle-experiments
 
-The input will be the nematode cells images in the dataset from Kaggle.
+The input will be the nematode cells images in the dataset from Kaggle. The images are divided in interphase and mitosis cycles.
 
 ## Objective
 
@@ -55,7 +55,7 @@ After generating segmentation we have to label the connected components. Connect
 
 For the partial project, it was done the Region-Based Segmentation for the [images](https://github.com/brenoslivio/SegmentationCellCycles/tree/main/Data/Original), generating [segmentation masks](https://github.com/brenoslivio/SegmentationCellCycles/tree/main/Data/Threshold).
 
-We have the following original image:
+We have the following original image (named I4.jpg):
 
 ![Original](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/I4.jpg)
 
