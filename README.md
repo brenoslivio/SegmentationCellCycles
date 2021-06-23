@@ -63,7 +63,7 @@ We have the following original image (named I4.jpg):
 
 ![Original](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/I4.jpg)
 
-After pre-processing and Region-Based Segmentation we have:
+After pre-processing, using Region-Based Segmentation and applying Connect-component labeling for extracting the nuclei we have:
 
 ![Segmented](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/I4_threshold.jpg)
 
