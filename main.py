@@ -8,6 +8,7 @@
 import RegionBasedSeg
 
 def main():
+    # Generate segmentation masks with region-base
     RegionBasedSeg.regionBasedSegmentationMasks()
 
 if __name__ == '__main__':

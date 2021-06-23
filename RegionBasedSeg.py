@@ -52,7 +52,7 @@ def regionBasedSegmentationMasks():
     Generate segmentation masks with region-based segmentation.
     """
 
-    src = "Data/Original/interphase/"
+    src = "Data/Original/"
 
     for _, filename in enumerate(os.listdir(src)):
         cellOriginal = imageio.imread(src + filename, pilmode="RGB")
@@ -86,44 +86,6 @@ def regionBasedSegmentationMasks():
         #colorSegmented = cellOriginal.copy()
         #colorSegmented[indx,indy] = 0
 
-        dest = "Data/Threshold/interphase/"
-
-        saveSegmentedImg(segmented, filename, dest)
-
-    src = "Data/Original/mitosis/"
-
-    for _, filename in enumerate(os.listdir(src)):
-        cellOriginal = imageio.imread(src + filename, pilmode="RGB")
-
-        cellGray = ImagePreprocessing.convertLuminance(cellOriginal)
-
-        cellEq = ImagePreprocessing.histogramEqualization(cellGray)
-
-        cellGauss = ImagePreprocessing.gaussianFilter(cellEq, k = 15, sigma = 10)
-
-        cellThresh = thresholdRegion(cellGauss)
-
-        mask = np.ones(cellThresh.shape)
-        mask[np.where(cellThresh == 0)] = 0
-        mask = ~(mask.astype(np.uint8))
-
-        mask = ImagePreprocessing.scalingImage(mask, 0, 1)
-
-        maskLabels = ConnectedComponent.connectedComponents(mask)
-
-        labels = np.unique(maskLabels)
-
-        centers = ConnectedComponent.centerOfMass(maskLabels, labels)
-
-        nearestBlob = ConnectedComponent.nearDistance(maskLabels, centers)
-
-        segmented = np.zeros(mask.shape)
-        segmented[maskLabels == nearestBlob] = 1
-
-        #[indx, indy] = np.where(segmented == 0)
-        #colorSegmented = cellOriginal.copy()
-        #colorSegmented[indx,indy] = 0
-
-        dest = "Data/Threshold/mitosis/"
+        dest = "Data/Threshold/"
 
         saveSegmentedImg(segmented, filename, dest)

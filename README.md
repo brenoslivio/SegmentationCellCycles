@@ -15,7 +15,7 @@ The input will be the nematode cells images in the dataset from Kaggle.
 
 ## Objective
 
-With the images, it will be done the process of image segmentation for the Nuclei. Before proper segmentation, the image will be pre-processed using enhancement and filtering techniques. With this, two segmentation methods will be used and compared, Region-Based and Clustering. The segmentations methods will be evaluated using metrics as Jaccard Index [2].
+With the images, it will be done the process of image segmentation for the Nuclei. Before proper segmentation, the image will be pre-processed using enhancement and filtering techniques. With this, two segmentation methods will be used and compared, Region-Based and Clustering. The segmentations methods will be evaluated using metrics as the Jaccard Index [2].
 
 Image Segmentation methods can be an important addition to image classification problems, considering how it can exclude background elements, possibly improving classification metrics [3].
 
@@ -27,7 +27,7 @@ The following steps will be used for the project.
 
 Before the process of segmentation, the input image needs essential adjustments. The order used for the project is:
 
-- Convert to grayscale for proper image processing;
+- Convert to grayscale for proper processing;
 - Histogram Equalization for contrast adjustment;
 - Gaussian filtering smoothing image for segmentation;
 
@@ -53,7 +53,7 @@ After generating segmentation we have to label the connected components. Connect
 
 ## Examples
 
-For the partial project, it was done the Region-Based Segmentation for the images, generating the masks [here](https://github.com/brenoslivio/SegmentationCellCycles/tree/main/Data/Threshold).
+For the partial project, it was done the Region-Based Segmentation for the [images](https://github.com/brenoslivio/SegmentationCellCycles/tree/main/Data/Original), generating [segmentation masks](https://github.com/brenoslivio/SegmentationCellCycles/tree/main/Data/Threshold).
 
 We have the following original image:
 
@@ -84,4 +84,4 @@ The IoU score for this case is 0.7130.
 
 [3] Blaschke, T., Burnett, C., & Pekkarinen, A. (2004). Image segmentation methods for object-based analysis and classification. In Remote sensing image analysis: Including the spatial domain (pp. 211-236). Springer, Dordrecht.
 
-Jaccard Index image from https://www.pyimagesearch.com/2016/11/07/intersection-over-union-iou-for-object-detection/
+Jaccard Index image from [pyimagesearch](https://www.pyimagesearch.com/2016/11/07/intersection-over-union-iou-for-object-detection/).

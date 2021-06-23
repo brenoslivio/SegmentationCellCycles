@@ -19,7 +19,7 @@ def convertLuminance(img):
 
 def jaccardIndex(f, g):
     """
-    Calculate Jaccard Index (RMSE).
+    Calculate Jaccard Index.
 
     Parameters: f, true mask;
                 g, segmented mask.
@@ -34,9 +34,9 @@ def jaccardIndex(f, g):
     return iou_score
 
 def main():
-    inputRefImg = "Data/TrueMask/interphase/I4/label.png"
+    inputRefImg = "Data/TrueMask/M27/label.png"
 
-    inputDegImg = "Data/Threshold/interphase/I4.jpg"
+    inputDegImg = "Data/Threshold/M27.jpg"
 
     f = imageio.imread(inputRefImg)
 
