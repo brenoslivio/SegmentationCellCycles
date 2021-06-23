@@ -6,20 +6,20 @@ Name: Breno Lívio Silva de Almeida, NUSP: 10276675
 
 ---
 
+## Introduction
+
 It's known the association of differences in the rates of cellular division and differences in the amount of time spent in each stage of cellular division between healthy and cancer cells [1]. Therefore, it's essential to create methods to analyze images of a process as cell division.
 
 We will explore the following dataset:
 https://www.kaggle.com/paultimothymooney/cell-cycle-experiments
 
-The input will be the nematode cells images in the dataset from Kaggle. The images are divided in interphase and mitosis cycles.
+The input will be the nematode cells images in the dataset from Kaggle. The [images](https://github.com/brenoslivio/SegmentationCellCycles/tree/main/Data/Original) are divided in interphase and mitosis cycles. There are 90 images in total, being 57 of interphase and 33 of mitosis cycles.
 
 ![Inputs](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/Inputs.png)
 
 ## Objective
 
 With the images, it will be done the process of image segmentation for the Nuclei. Before proper segmentation, the image will be pre-processed using enhancement and filtering techniques. With this, two segmentation methods will be used and compared, Region-Based and Clustering. The segmentations methods will be evaluated using metrics as the Jaccard Index [2].
-
-Image Segmentation methods can be an important addition to image classification problems, considering how it can exclude background elements, possibly improving classification metrics [3].
 
 ## Methodology
 
@@ -35,13 +35,15 @@ Before the process of segmentation, the input image needs essential adjustments.
 
 ### Segmentation methods
 
-#### Region-Based Segmentation
+It will be used the following segmentation methods.
 
-Region-Based Segmentation can separate the objects into different regions based on a threshold value. With the image converted to grayscale, we can, for example, separate the darkest objects from the most enlightened ones. The nuclei are within the darkest objects in these images.
+#### Region-Based segmentation
+
+Region-Based segmentation can separate the objects into different regions based on a threshold value. With the image converted to grayscale, for example, we can separate the darkest objects from the most enlightened ones. The nuclei are within the darkest objects in these images.
 
 #### Segmentation by Clustering
 
-Segmentation based on Clustering can divide the pixels of the image into homogeneous clusters. For this method it will be used the k-means algorithm.
+Segmentation based on clustering can divide the pixels of the image into homogeneous clusters. For this method it will be used the k-means algorithm.
 
 ### Evaluating Segmentation methods
 
@@ -83,7 +85,5 @@ The IoU score for this case is 0.7130.
 [1] Sherr, C. J. (1996). Cancer cell cycles. Science, 274(5293), 1672-1677.
 
 [2] Wang, Z., Wang, E. & Zhu, Y. Image segmentation evaluation: a survey of methods. Artif Intell Rev 53, 5637–5674 (2020).
-
-[3] Blaschke, T., Burnett, C., & Pekkarinen, A. (2004). Image segmentation methods for object-based analysis and classification. In Remote sensing image analysis: Including the spatial domain (pp. 211-236). Springer, Dordrecht.
 
 Jaccard Index image from [pyimagesearch](https://www.pyimagesearch.com/2016/11/07/intersection-over-union-iou-for-object-detection/).
