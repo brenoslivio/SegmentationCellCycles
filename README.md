@@ -13,6 +13,8 @@ https://www.kaggle.com/paultimothymooney/cell-cycle-experiments
 
 The input will be the nematode cells images in the dataset from Kaggle. The images are divided in interphase and mitosis cycles.
 
+![Inputs](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/Inputs.png)
+
 ## Objective
 
 With the images, it will be done the process of image segmentation for the Nuclei. Before proper segmentation, the image will be pre-processed using enhancement and filtering techniques. With this, two segmentation methods will be used and compared, Region-Based and Clustering. The segmentations methods will be evaluated using metrics as the Jaccard Index [2].
