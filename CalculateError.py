@@ -5,7 +5,10 @@
 # Project: Segmentation of Cell Cycles Images
 # 2021/1
 
+import ImagePreprocessing
+from scipy import stats
 import numpy as np
+import os
 import imageio
 import cv2
 
@@ -40,21 +43,65 @@ def jaccardIndex(f, g):
 
     return iou_score
 
-def main():
-    inputRefImg = "Data/TrueMask/M27/label.png"
+def calculateSegmentationError():
+    """
+    Read all segmentation masks to compare against true masks, calculating the Jaccard Index.
+    A descriptive statistics about the scores is printed.
+    """
 
-    inputDegImg = "Data/Threshold/M27.jpg"
+    inputRefDir = "Data/TrueMask/"
+    inputDegImgThreshold = "Data/Threshold/"
+    inputDegImgKmeans = "Data/Kmeans/"
 
-    f = imageio.imread(inputRefImg)
+    thresholdScores = {}
+    kMeansScores = {}
 
-    g = imageio.imread(inputDegImg)
+    # List all the folder in the directory
+    for _, folder in enumerate(os.listdir(inputRefDir)):
+        f = imageio.imread(inputRefDir + folder + "/label.png")
 
-    f = convertLuminance(f)
-    g = convertLuminance(g)
+        g = imageio.imread(inputDegImgThreshold + folder + ".jpg")
 
-    g = cv2.resize(g, dsize=(256, 256), interpolation=cv2.INTER_CUBIC)
+        # Convert to grayscale
+        f = ImagePreprocessing.convertLuminance(f)
+        g = ImagePreprocessing.convertLuminance(g)
 
-    print("{:.4f}".format(jaccardIndex(f, g)))
+        # Resize because of size change in the segmentation step
+        g = cv2.resize(g, dsize = (256, 256), interpolation = cv2.INTER_CUBIC)
 
-if __name__ == '__main__':
-    main()
+        # Put in the dictionary
+        thresholdScores[folder] = jaccardIndex(f, g)
+
+    for _, folder in enumerate(os.listdir(inputRefDir)):
+        f = imageio.imread(inputRefDir + folder + "/label.png")
+
+        g = imageio.imread(inputDegImgKmeans + folder + ".jpg")
+
+        f = ImagePreprocessing.convertLuminance(f)
+        g = ImagePreprocessing.convertLuminance(g)
+
+        g = cv2.resize(g, dsize = (256, 256), interpolation = cv2.INTER_CUBIC)
+
+        kMeansScores[folder] = jaccardIndex(f, g)
+
+    # Print descriptive statistics
+
+    print("Region-based segmentation statistics:\n")
+    print("IoU mean score: {:.4f}".format(np.mean(list(thresholdScores.values()))))
+    print("IoU median score: {:.4f}".format(np.median(list(thresholdScores.values()))))
+    print("IoU variance score: {:.4f}".format(np.var(list(thresholdScores.values()))))
+    print("Best image is", max(thresholdScores, key = thresholdScores.get), ", with IoU score: {:.4f}".format(thresholdScores[max(thresholdScores, key=thresholdScores.get)]))
+    print("Worst image is", min(thresholdScores, key = thresholdScores.get), ", with IoU score: {:.4f}".format(thresholdScores[min(thresholdScores, key=thresholdScores.get)]))
+    print("IoU score 1st Quartile: {:.4f}".format(np.percentile(list(thresholdScores.values()), 25)))
+    print("IoU score 3rd Quartile: {:.4f}".format(np.percentile(list(thresholdScores.values()), 75)))
+    print("--------------------------------")
+    print("Clustering segmentation statistics:\n")
+    print("IoU mean score: {:.4f}".format(np.mean(list(kMeansScores.values()))))
+    print("IoU median score: {:.4f}".format(np.median(list(kMeansScores.values()))))
+    print("IoU variance score: {:.4f}".format(np.var(list(kMeansScores.values()))))
+    print("Best image is", max(kMeansScores, key = kMeansScores.get), ", with IoU score: {:.4f}".format(kMeansScores[max(kMeansScores, key=kMeansScores.get)]))
+    print("Worst image is", min(kMeansScores, key = kMeansScores.get), ", with IoU score: {:.4f}".format(kMeansScores[min(kMeansScores, key=kMeansScores.get)]))
+    print("IoU score 1st Quartile: {:.4f}".format(np.percentile(list(kMeansScores.values()), 25)))
+    print("IoU score 3rd Quartile: {:.4f}".format(np.percentile(list(kMeansScores.values()), 75)))
+    print("--------------------------------")
+    print("Two-sample T-test, p-value: {:.4f}".format(stats.ttest_ind(list(thresholdScores.values()), list(kMeansScores.values()))[1]))

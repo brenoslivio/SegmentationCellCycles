@@ -55,31 +55,41 @@ def regionBasedSegmentationMasks():
 
     src = "Data/Original/"
 
+    # List the images in the directory
     for _, filename in enumerate(os.listdir(src)):
         cellOriginal = imageio.imread(src + filename, pilmode="RGB")
 
+        # Convert to grayscale
         cellGray = ImagePreprocessing.convertLuminance(cellOriginal)
 
+        # Histogram equalization
         cellEq = ImagePreprocessing.histogramEqualization(cellGray)
 
+        # Gaussian filter
         cellGauss = ImagePreprocessing.gaussianFilter(cellEq, k = 15, sigma = 10)
 
+        # Apply threshold
         cellThresh = thresholdRegion(cellGauss)
 
+        # Create white mask to add the darkest regions in the threshold generated
         mask = np.ones(cellThresh.shape)
         mask[np.where(cellThresh == 0)] = 0
         mask = ~(mask.astype(np.uint8))
 
         mask = ImagePreprocessing.scalingImage(mask, 0, 1)
 
+        # Apply connected-component labeling
         maskLabels = ConnectedComponent.connectedComponents(mask)
 
         labels = np.unique(maskLabels)
 
+        # Calculate centers of mass for the blobs
         centers = ConnectedComponent.centerOfMass(maskLabels, labels)
 
+        # Find nearest blob from the center, which is our nuclei
         nearestBlob = ConnectedComponent.nearDistance(maskLabels, centers)
 
+        # Isolate blob
         segmented = np.zeros(mask.shape)
         segmented[maskLabels == nearestBlob] = 1
 
@@ -103,8 +113,10 @@ def clusteringBasedSegmentationMasks():
 
         cellGauss = ImagePreprocessing.gaussianFilter(cellEq, k = 15, sigma = 10)
 
+        # Flatten for applying KMeans
         gaussFlatten = cellGauss.reshape(-1, 1)
 
+        # Applying clustering segmentation with KMeans
         clusters = KMeans(n_clusters = 13, random_state = 0).fit(gaussFlatten)
         clusterImg = clusters.cluster_centers_[clusters.labels_]
         clusterImg = clusterImg.reshape(cellGauss.shape)

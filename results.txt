@@ -1,0 +1,21 @@
+Region-based segmentation statistics:
+
+IoU mean score: 0.6274
+IoU median score: 0.6981
+IoU variance score: 0.0550
+Best image is I40 , with IoU score: 0.8841
+Worst image is M8 , with IoU score: 0.0000
+IoU score 1st Quartile: 0.5647
+IoU score 3rd Quartile: 0.8049
+--------------------------------
+Clustering segmentation statistics:
+
+IoU mean score: 0.6283
+IoU median score: 0.7267
+IoU variance score: 0.0676
+Best image is I44 , with IoU score: 0.8780
+Worst image is I38 , with IoU score: 0.0000
+IoU score 1st Quartile: 0.6315
+IoU score 3rd Quartile: 0.7820
+--------------------------------
+Two-sample T-test, p-value: 0.9791
