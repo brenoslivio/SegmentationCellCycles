@@ -5,11 +5,12 @@
 # Project: Segmentation of Cell Cycles Images
 # 2021/1
 
-import RegionBasedSeg
+import ImageSegmentation
 
 def main():
-    # Generate segmentation masks with region-base
-    RegionBasedSeg.regionBasedSegmentationMasks()
+    # Generate segmentation masks with region-based segmentation
+    # ImageSegmentation.regionBasedSegmentationMasks()
+    ImageSegmentation.clusteringBasedSegmentationMasks()
 
 if __name__ == '__main__':
     main()

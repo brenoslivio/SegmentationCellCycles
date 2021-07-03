@@ -125,7 +125,7 @@ def centerOfMass(maskLabels, labels):
 
         # Check if blob is of adequate size
         blobSize = len(np.where(maskLabels == i)[0])
-        if blobSize > 1000 and blobSize < 10000:
+        if blobSize > 500 and blobSize < 10000:
             xCenter = int(np.average(xMass))
             yCenter = int(np.average(yMass))
 

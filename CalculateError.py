@@ -1,3 +1,10 @@
+# Name: Breno Lívio Silva de Almeida
+# NUSP: 10276675
+
+# SCC0251 - Image Processing
+# Project: Segmentation of Cell Cycles Images
+# 2021/1
+
 import numpy as np
 import imageio
 import cv2

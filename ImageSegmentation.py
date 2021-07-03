@@ -7,6 +7,7 @@
 
 import ImagePreprocessing, ConnectedComponent
 import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
 import numpy as np
 import imageio
 import os
@@ -82,10 +83,51 @@ def regionBasedSegmentationMasks():
         segmented = np.zeros(mask.shape)
         segmented[maskLabels == nearestBlob] = 1
 
-        #[indx, indy] = np.where(segmented == 0)
-        #colorSegmented = cellOriginal.copy()
-        #colorSegmented[indx,indy] = 0
-
         dest = "Data/Threshold/"
+
+        saveSegmentedImg(segmented, filename, dest)
+
+def clusteringBasedSegmentationMasks():
+    """
+    Generate segmentation masks with region-based segmentation.
+    """
+
+    src = "Data/Original/"
+
+    for _, filename in enumerate(os.listdir(src)):
+        cellOriginal = imageio.imread(src + filename, pilmode="RGB")
+
+        cellGray = ImagePreprocessing.convertLuminance(cellOriginal)
+
+        cellEq = ImagePreprocessing.histogramEqualization(cellGray)
+
+        cellGauss = ImagePreprocessing.gaussianFilter(cellEq, k = 15, sigma = 10)
+
+        gaussFlatten = cellGauss.reshape(-1, 1)
+
+        clusters = KMeans(n_clusters = 13, random_state = 0).fit(gaussFlatten)
+        clusterImg = clusters.cluster_centers_[clusters.labels_]
+        clusterImg = clusterImg.reshape(cellGauss.shape)
+
+        clusterImg = ImagePreprocessing.scalingImage(clusterImg, 0, 1)
+
+        mask = np.ones(clusterImg.shape)
+        mask[np.where(clusterImg == 0)] = 0
+        mask = ~(mask.astype(np.uint8))
+
+        mask = ImagePreprocessing.scalingImage(mask, 0, 1)
+
+        maskLabels = ConnectedComponent.connectedComponents(mask)
+
+        labels = np.unique(maskLabels)
+
+        centers = ConnectedComponent.centerOfMass(maskLabels, labels)
+
+        nearestBlob = ConnectedComponent.nearDistance(maskLabels, centers)
+
+        segmented = np.zeros(mask.shape)
+        segmented[maskLabels == nearestBlob] = 1
+
+        dest = "Data/Kmeans/"
 
         saveSegmentedImg(segmented, filename, dest)
