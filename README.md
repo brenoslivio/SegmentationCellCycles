@@ -37,7 +37,7 @@ The project consists of the following pipeline:
 
 Before the process of segmentation, the input image needs essential adjustments. The order used for the project is:
 
-- Convert to grayscale for proper processing. Color is not important here;
+- Convert to grayscale for proper processing;
 - Histogram Equalization for contrast adjustment;
 - Gaussian filtering smoothing image for segmentation;
 
@@ -61,6 +61,10 @@ The segmentations created by hand will be compared to the region-based and clust
 
 ![IoU](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/iou_examples.png)
 
+Considering the classification idea of True Positive (TP), True Negative (TN), False Positive (FP) and False Negative (FN), we have the following equation:
+
+![latex]()
+
 ### Connected-component labeling
 
 After generating segmentation masks we have to label the connected components. Connected-component labeling is used in computer vision to detect connected regions in binary digital images [3]. We can extract the blobs for the Nuclei using this method.
@@ -83,7 +87,7 @@ The true segmentation mask would be:
 
 The IoU score for this case is 0.7130.
 
-## Results and Conclusion
+## Results and Discussion
 
 After generating the segmentation masks and making the evaluation, descriptive statistics are informed. Considering the project reproducibility, it's expected the output to be similar to [this](https://github.com/brenoslivio/SegmentationCellCycles/blob/main/results.txt).
 
@@ -105,14 +109,13 @@ And of course, the original image:
 
 ![originalimage](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Data/Original/I3.jpg)
 
-Of course, we could adjust the threshold value and the result would be possibly the same, but this would require an individual image approach. Clustering could be more generalist and better for dealing with more images.
+We could adjust the threshold value and the result would be possibly the same, but this would require an individual image approach. Clustering could be more generalist and better for dealing with more images.
 
-Another important observation is that a hyperparameter tuning for the segmentation methods could be used to have a better performance, but it would require an extensive amount of time for the case of this project.
+Another important observation is that hyperparameter tuning for the segmentation methods could be used to have a better performance, but it would require an extensive amount of time for the case of this project.
 
-## Next project steps
+Techniques as dilation from mathematical morphology could be used mainly with clustering segmentation, considering how this method disconsidered some nuclei borders.
 
-- Jupyter Notebook with demonstrations showing step by step the segmentation methods;
-- Better documented steps.
+Note that the Jaccard Index doesn't use True Negative calculation in the formula. Other metrics could be explored, and we could see a better difference between these two segmentation methods. 
 
 ---
 
