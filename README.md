@@ -6,6 +6,10 @@ Name: Breno Lívio Silva de Almeida, NUSP: 10276675
 
 ---
 
+You view the Jupyter Notebook for demonstrations here: [Jupyter Notebook](https://nbviewer.jupyter.org/github/brenoslivio/SegmentationCellCycles/blob/main/SegCellCycles.ipynb)
+
+---
+
 ## Introduction
 
 It's known the association of differences in the rates of cellular division and differences in the amount of time spent in each stage of cellular division between healthy and cancer cells [1]. Therefore, it's essential to create methods to analyze images of a process as cell division.
@@ -27,7 +31,7 @@ Note that all images will be segmented so we will have an average score of how a
 
 The project consists of the following pipeline:
 
-
+![pipeline](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/Pipeline.png)
 
 ### Image pre-processing
 
@@ -79,14 +83,40 @@ The true segmentation mask would be:
 
 The IoU score for this case is 0.7130.
 
+## Results and Conclusion
+
+After generating the segmentation masks and making the evaluation, descriptive statistics are informed. Considering the project reproducibility, it's expected the output to be similar to [this](https://github.com/brenoslivio/SegmentationCellCycles/blob/main/results.txt).
+
+We can see both segmentation IoU mean scores are practically identical. There are some differences related to the median and other percentiles.
+
+A way to analyze if there's some statistical difference to the methods is to use techniques as hypothesis tests. Taking a Two-sample T-test with the IoU scores we have a p-value of 0.98. With this, we fail to reject the null hypothesis and it would be really hard to choose a segmentation method as the best.
+
+However, we can see that in some cases a method could be more suited to a task. KMeans method is really useful for dealing with nuclei around darker regions.
+
+Threshold example:
+
+![threshold](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Data/Threshold/I3.jpg)
+
+Clustering example:
+
+![clustering](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Data/Kmeans/I3.jpg)
+
+And of course, the original image:
+
+![originalimage](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Data/Original/I3.jpg)
+
+Of course, we could adjust the threshold value and the result would be possibly the same, but this would require an individual image approach. Clustering could be more generalist and better for dealing with more images.
+
+Another important observation is that a hyperparameter tuning for the segmentation methods could be used to have a better performance, but it would require an extensive amount of time for the case of this project.
+
 ## Next project steps
 
-- It will be implemented the k-Means algorithms for Segmentation by Clustering;
-- The average IoU score will be calculated for each Segmentation method considering the images;
 - Jupyter Notebook with demonstrations showing step by step the segmentation methods;
 - Better documented steps.
 
 ---
+
+## References
 
 [1] Sherr, C. J. (1996). Cancer cell cycles. Science, 274(5293), 1672-1677.
 
