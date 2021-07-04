@@ -2,7 +2,7 @@
 
 SCC0251 - Image Processing
 
-Name: Breno Lívio Silva de Almeida, NUSP: 10276675
+**G4** - Name: Breno Lívio Silva de Almeida, NUSP: 10276675
 
 ---
 
