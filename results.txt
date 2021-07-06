@@ -1,3 +1,6 @@
+Region-Based Segmentation operation time: 452.4931 s
+Segmentation by Clustering operation time: 653.0295 s
+--------------------------------
 Region-based segmentation statistics:
 
 IoU mean score: 0.6274
@@ -18,4 +21,4 @@ Worst image is I38 , with IoU score: 0.0000
 IoU score 1st Quartile: 0.6315
 IoU score 3rd Quartile: 0.7820
 --------------------------------
-Two-sample T-test, p-value: 0.9791
+Two-sample T-test, p-value: 0.4895

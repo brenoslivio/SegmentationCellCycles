@@ -72,8 +72,10 @@ mkvirtualenv venv
 inside the virtual environment, install all needed python packages
 ```
 (venv) $ pip install numpy
+(venv) $ pip install pandas
 (venv) $ pip install imageio
 (venv) $ pip install matplotlib
+(venv) $ pip install seaborn
 (venv) $ pip install opencv-python
 (venv) $ pip install scikit-learn
 (venv) $ pip install scipy
@@ -119,7 +121,7 @@ We have the following Python source codes for the project:
 
 Output for the project:
 
-- [results.txt](./results.txt) - Output of descriptive statistics of segmentation methods Jaccard Index scores.
+- [results.txt](./results.txt) - Output of operation time and descriptive statistics of segmentation methods with Jaccard Index scores.
 
 Jupyter Notebook:
 
@@ -186,6 +188,8 @@ For properly extracting the nuclei we can calculate the euclidean distance betwe
 
 To evaluate the segmentations methods it will be created segmentations masks by hand using [labelme](https://github.com/wkentaro/labelme), a tool for Image Polygonal Annotation with Python. The masks are found [here](https://github.com/brenoslivio/SegmentationCellCycles/tree/main/Data/TrueMask).
 
+The masks are created ONLY for the nuclei closer to the center. There are images with nuclei near the image border, but it would turn the project too demanding to deal with all the nuclei in the image.
+
 The segmentations created by hand will be compared to the region-based and clustering methods, calculating the Intersection over Union (IoU) score, the Jaccard Index. 
 
 ![IoU](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/iou_examples.png)
@@ -198,7 +202,7 @@ Considering the classification idea of True Positive (TP), True Negative (TN), F
 
 For the partial project, it was done the Region-Based Segmentation for the [images](https://github.com/brenoslivio/SegmentationCellCycles/tree/main/Data/Original), generating [segmentation masks](https://github.com/brenoslivio/SegmentationCellCycles/tree/main/Data/Threshold).
 
-We have the following original image (named I4.jpg):
+We have the following original image (named `I4`):
 
 ![Original](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/I4.jpg)
 
@@ -216,13 +220,51 @@ The IoU score for this case is 0.7130.
 
 After generating the segmentation masks and making the evaluation, descriptive statistics are informed. Considering the project reproducibility, it's expected the output to be similar to [this](https://github.com/brenoslivio/SegmentationCellCycles/blob/main/results.txt).
 
+Considering the k-means algorithm complexity for generating clusters for the image, it was expected to be the most time demanding method.
+
 We can see both segmentation IoU mean scores are practically identical. There are some differences related to the median and other percentiles.
 
-A way to analyze if there's some statistical difference to the methods is to use techniques as hypothesis tests. Taking a Two-sample T-test with the IoU scores we have a p-value of 0.98. With this, we fail to reject the null hypothesis and it would be really hard to choose a segmentation method as the best.
+A way to analyze if there's some statistical difference to the methods is to use techniques as hypothesis tests. Taking a Two-sample T-test with the IoU scores we have a p-value of 0.49. With this, we fail to reject the null hypothesis and it would be really hard to choose a segmentation method as the best.
 
-However, we can see that in some cases a method could be more suited to a task. KMeans method is really useful for dealing with nuclei around darker regions.
+But this doesn't tell us the whole story. Working with a boxplot graph we can see more details.
 
-Threshold example:
+![boxplot1](./Images/boxplot1.png)
+
+With boxplots we can better see a difference between the two segmentation methods. The average score is identical, but the score distribution has its differences.
+
+Comparing the 1st Quartile for both, we can see a higher value for clustering, showing how this method had less inaccurate cases. In general, the clustering method is more consistent.
+
+We can also see some outliers, probably cases with a high misclassification. We can count how many outliers we have for each method. The number of outliers for both is similar as calculated in the Jupyter Notebook.
+
+Another way to understand even more the differences is to separate by cycle type.
+
+![boxplot2](./Images/boxplot2.png)
+
+We can see a difference in how each segmentation method handled the cycles. Note that it was expected segmentation by clustering would perform slightly worst than region-based, considering how the clustering method was not getting nuclei borders properly. So, the segmentation could get only a nucleus in a mitosis cycle if the nuclei are not too close.
+
+For example, with `M13` we have following true mask.
+
+![M13true](./Data/TrueMask/M13/label.png)
+
+The Region-Based generated the following (with 0.71 IoU Score):
+
+![M13region](./Data/Threshold/M13.jpg)
+
+And the clustering (with 0.24 IoU Score):
+
+![M13clust](./Data/Kmeans/M13.jpg)
+
+Being the original image:
+
+![M13original](./Data/Original/M13.jpg)
+
+It did actually get only one nucleus. This problem could be solved using mathematical morphology with dilation that could group one nucleus to another.
+
+And it's important to see the true mask was somewhat exaggerated, and one of the obvious justifications is the image's lighting. So, this must be taken in consideration as "human bias".
+
+However, we can see that in some cases a method could be more suited to a task. k-means method is really useful for dealing with nuclei around darker regions.
+
+Threshold example with interphase cycle, `I3` image:
 
 ![threshold](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Data/Threshold/I3.jpg)
 

@@ -43,7 +43,7 @@ def jaccardIndex(f, g):
 
     return iou_score
 
-def calculateSegmentationError():
+def calculateSegmentationError(regionTime, clustTime):
     """
     Read all segmentation masks to compare against true masks, calculating the Jaccard Index.
     A descriptive statistics about the scores is printed.
@@ -86,6 +86,9 @@ def calculateSegmentationError():
 
     # Print descriptive statistics
 
+    print("Region-Based Segmentation operation time: {:.4f} s".format(regionTime))
+    print("Segmentation by Clustering operation time: {:.4f} s".format(clustTime))
+    print("--------------------------------")
     print("Region-based segmentation statistics:\n")
     print("IoU mean score: {:.4f}".format(np.mean(list(thresholdScores.values()))))
     print("IoU median score: {:.4f}".format(np.median(list(thresholdScores.values()))))
@@ -104,4 +107,4 @@ def calculateSegmentationError():
     print("IoU score 1st Quartile: {:.4f}".format(np.percentile(list(kMeansScores.values()), 25)))
     print("IoU score 3rd Quartile: {:.4f}".format(np.percentile(list(kMeansScores.values()), 75)))
     print("--------------------------------")
-    print("Two-sample T-test, p-value: {:.4f}".format(stats.ttest_ind(list(thresholdScores.values()), list(kMeansScores.values()))[1]))
+    print("Two-sample T-test, p-value: {:.4f}".format(stats.ttest_ind(list(thresholdScores.values()), list(kMeansScores.values()), equal_var = False, alternative = 'less')[1]))
