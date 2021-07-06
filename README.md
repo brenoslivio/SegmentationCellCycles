@@ -133,7 +133,7 @@ Jupyter Notebook:
 
 ### Introduction
 
-It's known the association of differences in the rates of cellular division and differences in the amount of time spent in each stage of cellular division between healthy and cancer cells [1]. Therefore, it's essential to create methods to analyze images of a process as cell division.
+It's known the association of differences in the rates of cellular division and differences in the amount of time spent in each stage of cellular division between healthy and cancer cells [[1]](#ref1). Therefore, it's essential to create methods to analyze images of a process as cell division.
 
 We will explore the following dataset:
 https://www.kaggle.com/paultimothymooney/cell-cycle-experiments
@@ -144,7 +144,7 @@ The input will be the nematode cells images in the dataset from Kaggle. The [ima
 
 ### Objective
 
-With the images, it will be done the process of image segmentation for the Nuclei. Before proper segmentation, the image will be pre-processed using enhancement and filtering techniques. With this, two segmentation methods will be used and compared, Region-Based and Clustering. The segmentations methods will be evaluated using metrics as the Jaccard Index [2].
+With the images, it will be done the process of image segmentation for the Nuclei. Before proper segmentation, the image will be pre-processed using enhancement and filtering techniques. With this, two segmentation methods will be used and compared, Region-Based and Clustering. The segmentations methods will be evaluated using metrics as the Jaccard Index [[2]](#ref2).
 
 Note that all images will be segmented so we will have an average score of how accurate a segmentation method is to classify the nuclei in the images.
 
@@ -180,7 +180,7 @@ With the segmentation methods applied, we can extract the Region Of Interest (RO
 
 #### Connected-component Labeling
 
-After processing the segmentation masks by extracting the ROI we have to label the connected components. Connected-component labeling is used in computer vision to detect connected regions in binary digital images [3]. We can extract the blobs for the Nuclei using this method.
+After processing the segmentation masks by extracting the ROI we have to label the connected components. Connected-component labeling is used in computer vision to detect connected regions in binary digital images [[3]](#ref3). We can extract the blobs for the Nuclei using this method.
 
 For properly extracting the nuclei we can calculate the euclidean distance between the image center and blob's center of mass. The blob with the least distance would be the nuclei.
 
@@ -286,11 +286,11 @@ Note that the Jaccard Index doesn't use True Negative calculation in the formula
 
 ### References
 
-[1] Sherr, C. J. (1996). Cancer cell cycles. Science, 274(5293), 1672-1677.
+<a name="ref1"></a> [1] Sherr, C. J. (1996). Cancer cell cycles. Science, 274(5293), 1672-1677.
 
-[2] Wang, Z., Wang, E. & Zhu, Y. Image segmentation evaluation: a survey of methods. Artif Intell Rev 53, 5637–5674 (2020).
+<a name="ref2"></a> [2] Wang, Z., Wang, E. & Zhu, Y. Image segmentation evaluation: a survey of methods. Artif Intell Rev 53, 5637–5674 (2020).
 
-[3] He, L., Ren, X., Gao, Q., Zhao, X., Yao, B., & Chao, Y. (2017). The connected-component labeling problem: A review of state-of-the-art algorithms. Pattern Recognition, 70, 25-43.
+<a name="ref3"></a> [3] He, L., Ren, X., Gao, Q., Zhao, X., Yao, B., & Chao, Y. (2017). The connected-component labeling problem: A review of state-of-the-art algorithms. Pattern Recognition, 70, 25-43.
 
 Jaccard Index image from [pyimagesearch](https://www.pyimagesearch.com/2016/11/07/intersection-over-union-iou-for-object-detection/).
 
