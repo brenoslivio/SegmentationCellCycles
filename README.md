@@ -182,6 +182,8 @@ With the segmentation methods applied, we can extract the Region Of Interest (RO
 
 After processing the segmentation masks by extracting the ROI we have to label the connected components. Connected-component labeling is used in computer vision to detect connected regions in binary digital images [[3]](#ref3). We can extract the blobs for the Nuclei using this method.
 
+It was implemented the Hoshen-Kopelman algorithm, a two-pass algorithm. The algorithm makes two passes over the image. The first pass to assign temporary labels and record equivalences and the second pass to replace each temporary label by the smallest label of its equivalence class.
+
 For properly extracting the nuclei we can calculate the euclidean distance between the image center and blob's center of mass. The blob with the least distance would be the nuclei.
 
 #### Evaluating Segmentation Methods
