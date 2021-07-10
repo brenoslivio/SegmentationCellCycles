@@ -140,7 +140,7 @@ https://www.kaggle.com/paultimothymooney/cell-cycle-experiments
 
 The input will be the nematode cells images in the dataset from Kaggle. The [images](https://github.com/brenoslivio/SegmentationCellCycles/tree/main/Data/Original) are divided in interphase and mitosis cycles. There are 90 images in total, being 57 of interphase and 33 of mitosis cycles.
 
-![Inputs](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/Inputs.png)
+<img src="./Images/Inputs.png" alt="inputs"/>
 
 ### Objective
 
@@ -152,7 +152,7 @@ Note that all images will be segmented so we will have an average score of how a
 
 The project consists of the following pipeline:
 
-![pipeline](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/Pipeline.png)
+<img src="./Images/Pipeline.png" alt="pipeline"/>
 
 #### Image pre-processing
 
@@ -192,11 +192,11 @@ The masks are created ONLY for the nuclei closer to the center. There are images
 
 The segmentations created by hand will be compared to the region-based and clustering methods, calculating the Intersection over Union (IoU) score, the Jaccard Index. 
 
-![IoU](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/iou_examples.png)
+<img src="./Images/iou_examples.png" alt="iou"/>
 
 Considering the classification idea of True Positive (TP), True Negative (TN), False Positive (FP) and False Negative (FN), we have the following equation:
 
-![latex](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/jaccardformula.png)
+<img src="./Images/jaccardformula.png" alt="latex"/>
 
 ### Examples
 
@@ -204,15 +204,15 @@ For the partial project, it was done the Region-Based Segmentation for the [imag
 
 We have the following original image (named `I4`):
 
-![Original](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/I4.jpg)
+<img src="./Data/Original/I4.jpg" alt="Original" width="256" height="256"/>
 
 After pre-processing, using Region-Based Segmentation and applying Connect-component labeling for extracting the nuclei we have:
 
-![Segmented](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/I4_threshold.jpg)
+<img src="./Data/Threshold/I4.jpg" alt="Segmented" width="256" height="256"/>
 
 The true segmentation mask would be:
 
-![TrueMask](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Images/I4_TrueMask.png)
+<img src="./Data/TrueMask/I4/label.png" alt="TrueMask" width="256" height="256"/>
 
 The IoU score for this case is 0.7130.
 
@@ -228,7 +228,7 @@ A way to analyze if there's some statistical difference to the methods is to use
 
 But this doesn't tell us the whole story. Working with a boxplot graph we can see more details.
 
-![boxplot1](./Images/boxplot1.png)
+<img src="./Images/boxplot1.png" alt="boxplot1" width="800" height="500"/>
 
 With boxplots we can better see a difference between the two segmentation methods. The average score is identical, but the score distribution has its differences.
 
@@ -238,25 +238,25 @@ We can also see some outliers, probably cases with a high misclassification. We 
 
 Another way to understand even more the differences is to separate by cycle type.
 
-![boxplot2](./Images/boxplot2.png)
+<img src="./Images/boxplot2.png" alt="boxplot2" width="800" height="500"/>
 
 We can see a difference in how each segmentation method handled the cycles. Note that it was expected segmentation by clustering would perform slightly worst than region-based, considering how the clustering method was not getting nuclei borders properly. So, the segmentation could get only a nucleus in a mitosis cycle if the nuclei are not too close.
 
-For example, with `M13` we have following true mask.
+Being the original image `M13`:
 
-![M13true](./Data/TrueMask/M13/label.png)
+<img src="./Data/Original/M13.jpg" alt="M13original" width="256" height="256"/>
+
+We have following true mask.
+
+<img src="./Data/TrueMask/M13/label.png" alt="M13true" width="256" height="256"/>
 
 The Region-Based generated the following (with 0.71 IoU Score):
 
-![M13region](./Data/Threshold/M13.jpg)
+<img src="./Data/Threshold/M13.jpg" alt="M13thresh" width="256" height="256"/>
 
 And the clustering (with 0.24 IoU Score):
 
-![M13clust](./Data/Kmeans/M13.jpg)
-
-Being the original image:
-
-![M13original](./Data/Original/M13.jpg)
+<img src="./Data/Kmeans/M13.jpg" alt="M13clust" width="256" height="256"/>
 
 It did actually get only one nucleus. This problem could be solved using mathematical morphology with dilation that could group one nucleus to another.
 
@@ -264,17 +264,17 @@ And it's important to see the true mask was somewhat exaggerated, and one of the
 
 However, we can see that in some cases a method could be more suited to a task. k-means method is really useful for dealing with nuclei around darker regions.
 
-Threshold example with interphase cycle, `I3` image:
+Being the original image `I3` in interphase cycle:
 
-![threshold](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Data/Threshold/I3.jpg)
+<img src="./Data/Original/I3.jpg" alt="originalimage" width="256" height="256"/>
 
-Clustering example:
+We have this Threshold result:
 
-![clustering](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Data/Kmeans/I3.jpg)
+<img src="./Data/Threshold/I3.jpg" alt="threshold" width="256" height="256"/>
 
-And of course, the original image:
+Clustering result:
 
-![originalimage](https://raw.githubusercontent.com/brenoslivio/SegmentationCellCycles/main/Data/Original/I3.jpg)
+<img src="./Data/Kmeans/I3.jpg" alt="clustering" width="256" height="256"/>
 
 We could adjust the threshold value and the result would be possibly the same, but this would require an individual image approach. Clustering could be more generalist and better for dealing with more images.
 
