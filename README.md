@@ -138,7 +138,7 @@ It's known the association of differences in the rates of cellular division and 
 We will explore the following dataset:
 https://www.kaggle.com/paultimothymooney/cell-cycle-experiments
 
-The input will be the nematode cells images in the dataset from Kaggle. The [images](https://github.com/brenoslivio/SegmentationCellCycles/tree/main/Data/Original) are divided in interphase and mitosis cycles. There are 90 images in total, being 57 of interphase and 33 of mitosis cycles.
+The input will be the nematode cells images in the dataset from Kaggle. The [images](https://github.com/brenoslivio/SegmentationCellCycles/tree/main/Data/Original) are divided in interphase and mitosis cycles. There are 90 images in total, being 57 of interphase and 33 of mitosis cycles. Every image has a size of 256 x 256 with 3 channels (R, G, B).
 
 <img src="./Images/Inputs.png" alt="inputs"/>
 
@@ -176,7 +176,7 @@ Segmentation based on clustering can divide the pixels of the image into homogen
 
 #### Segmentation Processing
 
-With the segmentation methods applied, we can extract the Region Of Interest (ROI) the nuclei belong. This ROI would be darkest one considering the images' caracteristics.
+With the segmentation methods applied, we can extract the Region Of Interest (ROI) the nuclei belong. This ROI would be darkest one considering the images' characteristics.
 
 #### Connected-component Labeling
 
